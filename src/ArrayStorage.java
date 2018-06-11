@@ -21,10 +21,38 @@ public class ArrayStorage {
     }
 
     Resume get(String uuid) {
-        return null;
+        int index = this.getIndex(uuid);
+        if (index < 0) {
+            return null;
+        }
+        return this.storage[index];
     }
 
+    /**
+     *
+     * @param uuid
+     * @return index of the element with uuid that equals to param
+     */
+    int getIndex(String uuid) {
+        int i = -1;
+        boolean found = false;
+
+        while(!found && ++i <= this.tail) {
+            found = this.storage[i].uuid.equals(uuid);
+        }
+        return found? i:-1;
+    }
+
+
     void delete(String uuid) {
+        int index = this.getIndex(uuid);
+
+        for(int i = index; i < this.tail; i++) {
+            this.storage[i] = this.storage[i + 1];
+            this.storage[i + 1] = null;
+        }
+
+        this.tail--;
     }
 
     /**
