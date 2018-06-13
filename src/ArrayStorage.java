@@ -5,27 +5,23 @@ import java.util.Arrays;
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
-    int tail = -1;
+    int size = 0;
 
     void clear() {
-        Arrays.fill(this.storage, 0, this.size(), null);
-        this.tail = -1;
+        Arrays.fill(storage, 0, size, null);
+        size = 0;
     }
 
     void save(Resume r) {
-        try {
-            this.storage[++this.tail] = r;
-        } catch (Exception e) {
-            e.getMessage();
-        }
+        storage[size++] = r;
     }
 
     Resume get(String uuid) {
-        int index = this.getIndex(uuid);
+        int index = getIndex(uuid);
         if (index < 0) {
             return null;
         }
-        return this.storage[index];
+        return storage[index];
     }
 
     /**
@@ -34,41 +30,30 @@ public class ArrayStorage {
      * @return index of the element with uuid that equals to param
      */
     int getIndex(String uuid) {
-        int i = -1;
-        boolean found = false;
-
-        while(!found && ++i <= this.tail) {
-            found = this.storage[i].uuid.equals(uuid);
+        for(int i = 0; i < size; i++ ) {
+            if (storage[i].uuid.equals(uuid)) {
+                return i;
+            }
         }
-        return found? i:-1;
+        return -1;
     }
 
 
     void delete(String uuid) {
-        int index = this.getIndex(uuid);
-
-        for(int i = index; i < this.tail; i++) {
-            this.storage[i] = this.storage[i + 1];
-            this.storage[i + 1] = null;
-        }
-
-        this.tail--;
+        int index = getIndex(uuid);
+        System.arraycopy(storage,index + 1,storage,index,size - index - 1);
+        storage[size - 1] = null;
+        size--;
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        Resume[] list = null;
-        try {
-            list = Arrays.copyOfRange(this.storage, 0, this.size());
-        } catch (Exception e) {
-            e.getMessage();
-        }
-        return  list;
+        return Arrays.copyOfRange(storage, 0, size);
     }
 
     int size() {
-        return this.tail + 1;
+        return size;
     }
 }
