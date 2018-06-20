@@ -26,8 +26,8 @@ public class ArrayStorage {
     }
 
     void update(Resume r) {
-        if (isInStorage(r.uuid)) {
-            int index = getIndex(r.uuid);
+        int index;
+        if ((index = getIndex(r.uuid)) != -1) {
             storage[index] = r;
         } else {
             System.out.println("Resume isn't in the storage.");
@@ -36,8 +36,8 @@ public class ArrayStorage {
     }
 
     Resume get(String uuid) {
-        if (isInStorage(uuid)) {
-            int index = getIndex(uuid);
+        int index;
+        if ((index = getIndex(uuid)) != -1) {
             return storage[index];
         } else {
             System.out.println("Resume isn't in the storage.");
@@ -46,27 +46,9 @@ public class ArrayStorage {
         return null;
     }
 
-    /**
-     *
-     * @param uuid
-     * @return index of the element with uuid that equals to param
-     */
-    int getIndex(String uuid) {
-        for(int i = 0; i < size; i++ ) {
-            if (storage[i].uuid.equals(uuid)) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    boolean isInStorage(String uuid) {
-        return getIndex(uuid) != -1;
-    }
-
     void delete(String uuid) {
-        if (isInStorage(uuid)) {
-            int index = getIndex(uuid);
+        int index;
+        if ((index = getIndex(uuid)) != -1) {
             System.arraycopy(storage, index + 1, storage, index, size - index - 1);
             storage[size - 1] = null;
             size--;
@@ -84,5 +66,23 @@ public class ArrayStorage {
 
     int size() {
         return size;
+    }
+
+    /**
+     *
+     * @param uuid
+     * @return index of the element with uuid that equals to param
+     */
+    private int getIndex(String uuid) {
+        for(int i = 0; i < size; i++ ) {
+            if (storage[i].uuid.equals(uuid)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private boolean isInStorage(String uuid) {
+        return getIndex(uuid) != -1;
     }
 }
