@@ -43,6 +43,7 @@ public abstract class AbstractArrayStorage implements Storage {
             System.out.println("Resume isn't in the storage.");
         } else {
             deleteResume(index);
+            storage[size -1] = null;
             size--;
         }
 
