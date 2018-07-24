@@ -49,7 +49,7 @@ public abstract class AbstractArrayStorageTest {
         Assert.assertEquals(4, storage.size());
     }
 
-    @Test
+    @Test(expected = StorageException.class)
     public void testSaveOverflowException() {
         try {
             for (int i = storage.size(); i < STORAGE_LIMIT; i++) {
@@ -58,6 +58,7 @@ public abstract class AbstractArrayStorageTest {
         } catch (Exception e) {
             Assert.fail("Exception thrown before overflow.");
         }
+        storage.save(new Resume());
     }
 
     @Test(expected = ExistStorageException.class)
