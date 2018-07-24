@@ -25,8 +25,8 @@ public abstract class AbstractArrayStorageTest {
     private Resume resume_4 = new Resume(UUID_4);
     private Resume notExistResume = new Resume(NOTEXIST_RESUME);
 
-    public AbstractArrayStorageTest(Storage obj) {
-        storage = obj;
+    public AbstractArrayStorageTest(Storage storage) {
+        this.storage = storage;
     }
 
     @Before
@@ -50,20 +50,13 @@ public abstract class AbstractArrayStorageTest {
     }
 
     @Test
-    public void testSaveCheckException() {
+    public void testSaveOverflowException() {
         try {
             for (int i = storage.size(); i < STORAGE_LIMIT; i++) {
                 storage.save(new Resume());
             }
         } catch (Exception e) {
             Assert.fail("Exception thrown before overflow.");
-        }
-    }
-
-    @Test(expected = StorageException.class)
-    public void testSaveOverflowStorageException() {
-        for (int i = storage.size(); i <= STORAGE_LIMIT; i++) {
-            storage.save(new Resume());
         }
     }
 
