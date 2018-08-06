@@ -10,19 +10,19 @@ import ru.javawebinar.basejava.model.Resume;
 import java.util.Arrays;
 
 public abstract class AbstractStorageTest {
-    private Storage storage;
+    protected Storage storage;
 
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
     private static final String UUID_4 = "uuid4";
-    private static final String NOTEXIST_RESUME = "dummy";
+    private static final String NOT_EXIST_RESUME = "dummy";
 
     private Resume resume_1 = new Resume(UUID_1);
     private Resume resume_2 = new Resume(UUID_2);
     private Resume resume_3 = new Resume(UUID_3);
     private Resume resume_4 = new Resume(UUID_4);
-    private Resume notExistResume = new Resume(NOTEXIST_RESUME);
+    private Resume notExistResume = new Resume(NOT_EXIST_RESUME);
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -73,7 +73,7 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void testDeleteNotExistStorageException() {
-        storage.delete(NOTEXIST_RESUME);
+        storage.delete(NOT_EXIST_RESUME);
     }
 
     @Test
@@ -83,18 +83,17 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void testGetNotExistStorageException() {
-        storage.get(NOTEXIST_RESUME);
+        storage.get(NOT_EXIST_RESUME);
     }
 
     @Test
     public void getAllTest() {
-        Resume[] expected = new Resume[]{resume_1, resume_2, resume_3};
+        Resume[] expected = {resume_1, resume_2, resume_3};
         Assert.assertArrayEquals(expected, storage.getAll());
     }
 
     @Test
     public void testSize() {
-        storage.save(resume_4);
-        Assert.assertEquals(4, storage.size());
+        Assert.assertEquals(3, storage.size());
     }
 }

@@ -5,9 +5,9 @@ import ru.javawebinar.basejava.model.Resume;
 public interface Storage {
     void clear();
 
-    void save(Resume r);
+    void save(Resume resume);
 
-    void update(Resume r);
+    void update(Resume resume);
 
     Resume get(String uuid);
 
