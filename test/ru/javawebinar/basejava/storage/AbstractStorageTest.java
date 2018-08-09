@@ -7,8 +7,6 @@ import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
-import java.util.Arrays;
-
 public abstract class AbstractStorageTest {
     protected Storage storage;
 
@@ -16,13 +14,11 @@ public abstract class AbstractStorageTest {
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
     private static final String UUID_4 = "uuid4";
-    private static final String NOT_EXIST_RESUME = "dummy";
 
     private Resume resume_1 = new Resume(UUID_1);
     private Resume resume_2 = new Resume(UUID_2);
     private Resume resume_3 = new Resume(UUID_3);
     private Resume resume_4 = new Resume(UUID_4);
-    private Resume notExistResume = new Resume(NOT_EXIST_RESUME);
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -62,7 +58,7 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void testUpdateNotExistStorageException() {
-        storage.update(notExistResume);
+        storage.update(resume_4);
     }
 
     @Test
@@ -73,7 +69,7 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void testDeleteNotExistStorageException() {
-        storage.delete(NOT_EXIST_RESUME);
+        storage.delete(UUID_4);
     }
 
     @Test
@@ -83,7 +79,7 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void testGetNotExistStorageException() {
-        storage.get(NOT_EXIST_RESUME);
+        storage.get(UUID_4);
     }
 
     @Test

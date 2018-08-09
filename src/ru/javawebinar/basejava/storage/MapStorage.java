@@ -18,32 +18,37 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected void saveResume(Resume resume, int index) {
-
-    }
-
-    @Override
-    protected void updateResume(Resume resume, int index) {
-
-    }
-
-    @Override
-    protected Resume getResume(String uuid, int index) {
-        return null;
-    }
-
-    @Override
-    protected void deleteResume(String uuid, int index) {
-
-    }
-
-    @Override
-    protected Resume[] toArray() {
+    public Resume[] getAll() {
         return new Resume[0];
     }
 
     @Override
-    protected int getIndex(String uuid) {
-        return 0;
+    protected void saveResume(Resume resume, Object key) {
+
+    }
+
+    @Override
+    protected void updateResume(Resume resume, Object key) {
+
+    }
+
+    @Override
+    protected Resume getResume(String uuid, Object key) {
+        return null;
+    }
+
+    @Override
+    protected void deleteResume(String uuid, Object key) {
+
+    }
+
+    @Override
+    protected Object getKey(String uuid) {
+        return null;
+    }
+
+    @Override
+    protected boolean existResume(Object key) {
+        return false;
     }
 }

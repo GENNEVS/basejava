@@ -1,12 +1,9 @@
 package ru.javawebinar.basejava.storage;
 
-import ru.javawebinar.basejava.exception.ExistStorageException;
-import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.Arrays;
-
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
     protected static final int STORAGE_LIMIT = 10000;
@@ -25,51 +22,45 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return size;
     }
 
+    @Override
+    public Resume[] getAll() {
+        return Arrays.copyOfRange(storage, 0, size);
+    }
 
     @Override
-    protected void saveResume(Resume resume, int index) {
-        if (index >= 0) {
-            throw new ExistStorageException(resume.getUuid());
-        } else if (size >= STORAGE_LIMIT) {
+    protected void saveResume(Resume resume, Object key) {
+        if (size >= STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", resume.getUuid());
         } else {
-            insertResume(resume, index);
+            insertResume(resume, (Integer) key);
+            size++;
         }
-        size++;
     }
 
     @Override
-    protected void updateResume(Resume resume, int index) {
-        if (index < 0) {
-            throw new NotExistStorageException(resume.getUuid());
-        }
-        storage[index] = resume;
+    protected void updateResume(Resume resume, Object key) {
+        storage[(int) key] = resume;
     }
 
     @Override
-    protected void deleteResume(String uuid, int index) {
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        deleteResume(index);
+    protected void deleteResume(String uuid, Object key) {
+        deleteResume((Integer) key);
         storage[size - 1] = null;
         size--;
     }
 
     @Override
-    protected Resume getResume(String uuid, int index) {
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        return storage[index];
+    protected Resume getResume(String uuid, Object key) {
+        return storage[(int) key];
     }
 
-    @Override
-    protected Resume[] toArray() {
-        return Arrays.copyOfRange(storage, 0, size);
+    protected boolean existResume(Object key) {
+        return (int) key >= 0;
     }
 
     protected abstract void deleteResume(int index);
 
     protected abstract void insertResume(Resume resume, int index);
+
+
 }
