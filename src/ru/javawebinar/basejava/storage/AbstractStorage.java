@@ -8,42 +8,44 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void save(Resume resume) {
-        Object key = getKey(resume.getUuid());
-        if (existResume(key)) {
-            throw new ExistStorageException(resume.getUuid());
-        } else {
-            saveResume(resume, key);
-        }
+        Object key = getNotExistKey(resume.getUuid());
+        saveResume(resume, key);
     }
 
     @Override
     public void update(Resume resume) {
-        Object key = getKey(resume.getUuid());
-        if (!existResume(key)) {
-            throw new NotExistStorageException(resume.getUuid());
-        } else {
-            updateResume(resume, key);
-        }
+        Object key = getExistKey(resume.getUuid());
+        updateResume(resume, key);
     }
 
     @Override
     public Resume get(String uuid) {
-        Object key = getKey(uuid);
-        if (!existResume(key)) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            return getResume(uuid, key);
-        }
+        Object key = getExistKey(uuid);
+        return getResume(uuid, key);
     }
 
     @Override
     public void delete(String uuid) {
+        Object key = getExistKey(uuid);
+        deleteResume(uuid, key);
+    }
+
+    protected Object getExistKey(String uuid) {
         Object key = getKey(uuid);
         if (!existResume(key)) {
             throw new NotExistStorageException(uuid);
-        } else {
-            deleteResume(uuid, key);
         }
+
+        return key;
+    }
+
+    protected Object getNotExistKey(String uuid) {
+        Object key = getKey(uuid);
+        if (existResume(key)) {
+            throw new ExistStorageException(uuid);
+        }
+
+        return key;
     }
 
     protected abstract Object getKey(String uuid);
