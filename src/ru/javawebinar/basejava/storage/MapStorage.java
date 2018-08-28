@@ -49,8 +49,8 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected Object getKey(String uuid) {
-        return uuid;
+    protected Object getKey(String email) {
+        return email;
     }
 
     @Override

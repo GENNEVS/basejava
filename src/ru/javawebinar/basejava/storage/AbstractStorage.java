@@ -8,55 +8,55 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void save(Resume resume) {
-        Object key = getNotExistKey(resume.getUuid());
+        Object key = getNotExistKey(resume.getEmail());
         saveResume(resume, key);
     }
 
     @Override
     public void update(Resume resume) {
-        Object key = getExistKey(resume.getUuid());
+        Object key = getExistKey(resume.getEmail());
         updateResume(resume, key);
     }
 
     @Override
-    public Resume get(String uuid) {
-        Object key = getExistKey(uuid);
-        return getResume(uuid, key);
+    public Resume get(String email) {
+        Object key = getExistKey(email);
+        return getResume(email, key);
     }
 
     @Override
-    public void delete(String uuid) {
-        Object key = getExistKey(uuid);
-        deleteResume(uuid, key);
+    public void delete(String email) {
+        Object key = getExistKey(email);
+        deleteResume(email, key);
     }
 
-    protected Object getExistKey(String uuid) {
-        Object key = getKey(uuid);
+    protected Object getExistKey(String email) {
+        Object key = getKey(email);
         if (!existResume(key)) {
-            throw new NotExistStorageException(uuid);
+            throw new NotExistStorageException(email);
         }
 
         return key;
     }
 
-    protected Object getNotExistKey(String uuid) {
-        Object key = getKey(uuid);
+    protected Object getNotExistKey(String email) {
+        Object key = getKey(email);
         if (existResume(key)) {
-            throw new ExistStorageException(uuid);
+            throw new ExistStorageException(email);
         }
 
         return key;
     }
 
-    protected abstract Object getKey(String uuid);
+    protected abstract Object getKey(String email);
 
     protected abstract void saveResume(Resume resume, Object key);
 
     protected abstract void updateResume(Resume resume, Object key);
 
-    protected abstract Resume getResume(String uuid, Object key);
+    protected abstract Resume getResume(String email, Object key);
 
-    protected abstract void deleteResume(String uuid, Object key);
+    protected abstract void deleteResume(String email, Object key);
 
     protected abstract boolean existResume(Object key);
 }

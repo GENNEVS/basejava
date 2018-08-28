@@ -3,7 +3,6 @@ package ru.javawebinar.basejava.storage;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,18 +38,18 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getResume(String uuid, Object key) {
+    protected Resume getResume(String email, Object key) {
         return storage.get((Integer) key);
     }
 
     @Override
-    protected void deleteResume(String uuid, Object key) {
+    protected void deleteResume(String email, Object key) {
         storage.remove((int) key);
     }
 
     @Override
-    protected Object getKey(String uuid) {
-        return storage.indexOf(new Resume(uuid));
+    protected Object getKey(String email) {
+        return storage.indexOf(new Resume(email));
     }
 
     @Override
