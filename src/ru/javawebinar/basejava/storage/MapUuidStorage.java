@@ -5,7 +5,7 @@ import ru.javawebinar.basejava.model.Resume;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class MapStorage extends AbstractStorage {
+public class MapUuidStorage extends AbstractStorage {
     protected Map<String, Resume> storage = new HashMap<>();
 
     @Override
@@ -49,12 +49,17 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected Object getKey(String email) {
-        return email;
+    protected Object getKey(String uuid) {
+        return uuid;
     }
 
     @Override
     protected boolean existResume(Object key) {
         return storage.containsKey(key);
+    }
+
+    @Override
+    protected List<Resume> getAllResumes() {
+        return new ArrayList<>(storage.values());
     }
 }

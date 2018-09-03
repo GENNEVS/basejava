@@ -7,7 +7,8 @@ import org.junit.runners.Suite;
         ArrayStorageTest.class,
         SortedArrayStorageTest.class,
         ListStorageTest.class,
-        MapStorageTest.class
+        MapUuidStorageTest.class,
+        MapHashStorageTest.class
 })
 @RunWith(Suite.class)
 public class AllTestsRunner {

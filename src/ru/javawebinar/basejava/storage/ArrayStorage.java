@@ -4,9 +4,9 @@ import ru.javawebinar.basejava.model.Resume;
 
 public class ArrayStorage extends AbstractArrayStorage {
     @Override
-    protected Integer getKey(String email) {
+    protected Integer getKey(String uuid) {
         for (int i = 0; i < size; i++) {
-            if (email.equals(storage[i].getEmail())) {
+            if (uuid.equals(storage[i].getUuid())) {
                 return i;
             }
         }

@@ -3,10 +3,12 @@ package ru.javawebinar.basejava.storage;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class ListStorage extends AbstractStorage {
-    protected List<Resume> storage = new ArrayList<>();
+public class MapHashStorage extends AbstractStorage {
+    protected Map<Integer, Resume> storage = new HashMap<>();
 
     @Override
     public void clear() {
@@ -20,39 +22,36 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected void saveResume(Resume resume, Object key) {
-        storage.add(resume);
+        storage.put(key.hashCode(), resume);
     }
 
     @Override
     protected void updateResume(Resume resume, Object key) {
-        storage.set((Integer) key, resume);
+        storage.replace(key.hashCode(), resume);
     }
 
     @Override
     protected Resume getResume(String uuid, Object key) {
-        return storage.get((Integer) key);
+        return storage.get(key.hashCode());
     }
 
     @Override
     protected void deleteResume(String uuid, Object key) {
-        storage.remove((int) key);
+        storage.remove(key.hashCode());
     }
 
     @Override
     protected Object getKey(String uuid) {
-        for (int i = 0; i < storage.size(); i++) {
-            if (storage.get(i).getUuid().equals(uuid)) return i;
-        }
-        return -1;
+        return uuid.hashCode();
     }
 
     @Override
     protected boolean existResume(Object key) {
-        return (int) key >= 0;
+        return storage.containsKey(key.hashCode());
     }
 
     @Override
     protected List<Resume> getAllResumes() {
-        return new ArrayList<>(storage);
+        return new ArrayList<>(storage.values());
     }
 }

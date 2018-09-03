@@ -1,26 +1,38 @@
 package ru.javawebinar.basejava.model;
 
+import java.util.UUID;
+
 public class Resume implements Comparable<Resume> {
 
-    private final String email;
+    private final String uuid;
+
     private String fullName;
 
-    public Resume(String email) {
-        this.email = email;
+    public Resume() {
+        this(UUID.randomUUID().toString());
     }
 
-    public Resume(String email, String fullName) {
-        this.email = email;
+    public Resume(String uuid) {
+        this.uuid = uuid;
+        this.fullName = "Anonymous";
+    }
+
+    public Resume(String uuid, String fullName) {
+        this.uuid = uuid;
         this.fullName = fullName;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     @Override
     public int hashCode() {
-        return email.hashCode();
+        return (uuid + fullName).hashCode();
     }
 
     @Override
@@ -30,24 +42,21 @@ public class Resume implements Comparable<Resume> {
 
         Resume resume = (Resume) obj;
 
-        return email.equals(resume.email);
+        return uuid.equals(resume.uuid) &&
+                fullName.equals(resume.fullName);
     }
 
     @Override
     public String toString() {
-        return email;
+        return "uuid=" + uuid + ", fullName=" + fullName;
     }
 
     @Override
     public int compareTo(Resume resume) {
-        return email.compareTo(resume.email);
-    }
+        if (fullName.compareTo(resume.fullName) == 0) {
+            return uuid.compareTo(resume.uuid);
+        }
 
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+        return fullName.compareTo(resume.fullName);
     }
 }

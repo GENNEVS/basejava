@@ -54,6 +54,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void testUpdate() {
+        resume_3.setFullName("Anonymous Update");
         storage.update(resume_3);
         Assert.assertEquals(3, storage.size());
         Assert.assertEquals(resume_3, storage.get(UUID_3));
@@ -61,6 +62,7 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void testUpdateNotExistStorageException() {
+        resume_4.setFullName("Anonymous Update");
         storage.update(resume_4);
     }
 
@@ -88,7 +90,7 @@ public abstract class AbstractStorageTest {
     @Test
     public void getAllTest() {
         List<Resume> expected = Arrays.asList(resume_1, resume_2, resume_3);
-        Assert.assertArrayEquals(expected.toArray(), storage.getAllSorted().toArray());
+        Assert.assertEquals(expected, storage.getAllSorted());
     }
 
     @Test

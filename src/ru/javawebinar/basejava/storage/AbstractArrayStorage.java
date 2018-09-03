@@ -3,13 +3,9 @@ package ru.javawebinar.basejava.storage;
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static java.util.Arrays.copyOfRange;
 import static java.util.Arrays.fill;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
@@ -30,46 +26,42 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        return Arrays.asList(copyOfRange(storage, 0, size)).stream()
-                .sorted(Comparator.naturalOrder())
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    protected void saveResume(Resume resume, Object key) {
+    protected void saveResume(Resume resume, Object index) {
         if (size >= STORAGE_LIMIT) {
-            throw new StorageException("Storage overflow", resume.getEmail());
+            throw new StorageException("Storage overflow", resume.getUuid());
         } else {
-            insertResume(resume, (Integer) key);
+            insertResume(resume, (Integer) index);
             size++;
         }
     }
 
     @Override
-    protected void updateResume(Resume resume, Object key) {
-        storage[(int) key] = resume;
+    protected void updateResume(Resume resume, Object index) {
+        storage[(int) index] = resume;
     }
 
     @Override
-    protected void deleteResume(String uuid, Object key) {
-        deleteResume((Integer) key);
+    protected void deleteResume(String uuid, Object index) {
+        deleteResume((Integer) index);
         storage[size - 1] = null;
         size--;
     }
 
     @Override
-    protected Resume getResume(String uuid, Object key) {
-        return storage[(int) key];
+    protected Resume getResume(String uuid, Object index) {
+        return storage[(int) index];
     }
 
-    protected boolean existResume(Object key) {
-        return (int) key >= 0;
+    @Override
+    protected List<Resume> getAllResumes() {
+        return Arrays.asList(Arrays.copyOfRange(storage, 0, size));
+    }
+
+    protected boolean existResume(Object index) {
+        return (int) index >= 0;
     }
 
     protected abstract void deleteResume(int index);
 
     protected abstract void insertResume(Resume resume, int index);
-
-
 }
