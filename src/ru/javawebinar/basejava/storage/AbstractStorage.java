@@ -24,13 +24,13 @@ public abstract class AbstractStorage implements Storage {
     @Override
     public Resume get(String uuid) {
         Object key = getExistKey(uuid);
-        return getResume(uuid, key);
+        return getResume(key);
     }
 
     @Override
     public void delete(String uuid) {
         Object key = getExistKey(uuid);
-        deleteResume(uuid, key);
+        deleteResume(key);
     }
 
     @Override
@@ -66,9 +66,9 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract void updateResume(Resume resume, Object key);
 
-    protected abstract Resume getResume(String uuid, Object key);
+    protected abstract Resume getResume(Object key);
 
-    protected abstract void deleteResume(String uuid, Object key);
+    protected abstract void deleteResume(Object key);
 
     protected abstract boolean existResume(Object key);
 }

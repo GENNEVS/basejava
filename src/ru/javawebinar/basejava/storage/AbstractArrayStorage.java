@@ -41,14 +41,14 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void deleteResume(String uuid, Object index) {
-        deleteResume((Integer) index);
+    protected void deleteResume(Object index) {
+        delete((Integer) index);
         storage[size - 1] = null;
         size--;
     }
 
     @Override
-    protected Resume getResume(String uuid, Object index) {
+    protected Resume getResume(Object index) {
         return storage[(int) index];
     }
 
@@ -61,7 +61,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return (int) index >= 0;
     }
 
-    protected abstract void deleteResume(int index);
+    protected abstract void delete(int index);
 
     protected abstract void insertResume(Resume resume, int index);
 }
