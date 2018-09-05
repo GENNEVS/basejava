@@ -30,7 +30,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected Resume getResume(Object key) {
-        return storage.get((Integer) key);
+        return storage.get((int) key);
     }
 
     @Override
